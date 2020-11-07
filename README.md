@@ -14,11 +14,12 @@ bayes_class.py
 Future:
 
 Supervised:
--Ordinary Least Squares Regression
--Logistic Regression
--Support Vector Machine (SVM)
--Decision Tree
--Ensemble Methods
+
+  -Ordinary Least Squares Regression \\
+  -Logistic Regression \\
+  -Support Vector Machine (SVM)
+  -Decision Tree
+  -Ensemble Methods
 
 Unsupervised:
 -Clustering Algorithm
