@@ -6,8 +6,8 @@ import pandas as pd
 
 # Load file
 def loadfile(filename):
-	type = os.path.splitext(filename)[1]
-	if type == 'csv':
+	extension = os.path.splitext(filename)[1]
+	if extension == '.csv':
 		dataset = list()
 		with open(filename, 'r') as file:
 			csv_read = read(file)
@@ -16,13 +16,27 @@ def loadfile(filename):
 					continue
 				dataset.append(row)
 		return dataset
-	elif type == 'txt':
+	elif extension == '.txt':
 		dataset = eval(open(filename).read())
 		return dataset
-	
-# Convert data type
 
-def convert_data(data,axis='col',idx,data_type2):
+# Load data using pandas
+def loadfile_pd(filename,colspecs=None,names=None,index_col=None,*args):
+	ext = os.path.splitext(filename)[1]
+	if ext == '.csv':
+		return pd.read_csv(filename,names)
+	elif ext == '.xlsx':
+		return pd.read_excel(filename,header=0,index_col=0)
+	elif ext == '.json':
+		return pd.read_json(filename)
+	elif ext == '.txt':
+		return pd.read_fwf(filename,colspecs,names,index_col)
+	else:
+		return pd.read_fwf(filename)		
+	
+# Convert data types in cols
+
+def convert_data(data,idx,data_type2,axis='col'):
 	if axis == col:
 		if data_type2 == 'float':
 			for row in dataset:
@@ -31,5 +45,8 @@ def convert_data(data,axis='col',idx,data_type2):
 			for row in dataset:
 				row[idx] = int(row[idx].strip())
 	else:
-		print('Not done yet')
+		print('TBD')
 	return	
+
+
+
