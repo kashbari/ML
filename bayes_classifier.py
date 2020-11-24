@@ -1,11 +1,11 @@
-## Implement Naives Bayes Classification
-# Test Data: iris.csv from machinelearningmastery
+#### Implement Naives Bayes Classification
+## Test Data: iris.csv from machinelearningmastery
 
 import numpy as np
 import pandas as pd
 import scipy.stats as stat
 
-# 1. Separate by Class
+## 1. Separate by Class
 
 def sep_by_class(df,class_type,col='class'):
 	'''
@@ -13,7 +13,7 @@ def sep_by_class(df,class_type,col='class'):
 	'''
 	return df.loc[df[col]==class_type]
 
-# 2. Summarize Dataset
+## 2. Summarize Dataset
 
 def summarize_data(df,col='class',method=None,*args):
 	'''
@@ -25,7 +25,7 @@ def summarize_data(df,col='class',method=None,*args):
 	else:
 		return pd.concat([dg.mean(),dg.std(),dg.count()],keys=['mean','std','count'],axis=1).T
 
-# 3. Summarize Dataset by Class
+## 3. Summarize Dataset by Class
 
 def summarize_by_class(df,col='class'):
 	frames = []
@@ -35,7 +35,7 @@ def summarize_by_class(df,col='class'):
 		frames.append(summarize_data(dg))
 	return pd.concat(frames,keys=classes)
 
-# 4. Distributions (Normal)
+## 4. Distributions (Normal primarily used, works for multinomial and bernoulli)
 
 def pdf_distr(x,mu=0,sigma=1,num_trial=2,prob=[.5,.5],distribution='normal',*args):
 	'''
@@ -48,7 +48,7 @@ def pdf_distr(x,mu=0,sigma=1,num_trial=2,prob=[.5,.5],distribution='normal',*arg
 	else: # assumes normal otherwise
 		return stat.norm.pdf(x,mu,sigma) 
 
-# 5. Class Probabilities
+## 5. Class Probabilities
 
 def calculate_class_prob(summary,x,distr='normal',*args):
 	'''
@@ -66,8 +66,8 @@ def calculate_class_prob(summary,x,distr='normal',*args):
 					prob[class_values] *= pdf_distr(x.loc[s],mu=mu0,sigma=sigma0)
 	return prob
 
-# 6. Naive Bayesian Model i.e. P(class = x| A,...,B) = P(A|class=x)*...*P(B|class=x)*P(class=x)
-# WARNING: No rescaling, output will NOT be probability
+## 6. Naive Bayesian Model i.e. P(class = x| A,...,B) = P(A|class=x)*...*P(B|class=x)*P(class=x)
+## WARNING: No rescaling, output will NOT be probability
 
 def predict(model,x):
 	'''
