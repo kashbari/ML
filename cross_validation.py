@@ -9,6 +9,7 @@
 import numpy as np
 import pandas as pd
 from random import *
+import copy
 
 ## 1. Evaluation Metric
 
@@ -43,7 +44,7 @@ def cross_valid_split(df,n_folds=5,*args):
 	df_split = list()
 	fold_size = int(len(df)/n_folds)
 	for _ in range(n_folds):
-		idx = sample(range(len(df)),fold_size)
+		idx = sample(df.index,fold_size)
 		df_split.append(df.loc[idx])
 	return df_split
 
@@ -53,5 +54,15 @@ def cross_valid_eval_alg(df,algorithm,n_folds=5,*args):
 	folds = cross_valid_split(df,n_folds)
 	scores = list()
 	for f in folds:
-		train_set = 
-	pass
+		train_set = copy.deepcopy(folds)
+		f1 = [j for j in range(len(train_set)) if f.equals(train_set[j])]
+		del train_set[f1[0]]
+		train_set = pd.concat(train_set)
+		train_set.index = list(range(len(train_set)))
+		test_set = copy.deepcopy(f)
+		test_set.index = list(range(len(test_set)))
+		predicted = algorithm(train_set,test_set)
+		actual = [test_set.loc[(r,'class')] for r in test_set.index]
+		accuracy = eval_metric(actual,predicted)
+		scores.append(accuracy)
+	return scores

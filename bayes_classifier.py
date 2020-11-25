@@ -57,13 +57,13 @@ def calculate_class_prob(summary,x,distr='normal',*args):
 	total = sum([max(summary.loc[(s,'count')]) for s in summary.index.levels[0]])
 	prob = dict()
 	for class_values in summary.index.levels[0]:
-		prob[class_values] = (max(summary.loc[(class_values,'count')]))/total
+		prob[class_values] = np.log((max(summary.loc[(class_values,'count')]))/total)
 		for s in summary.loc[class_values].columns:
 			mu0,sigma0,cnt0 = summary.loc[class_values][s]
-				if distr != 'normal': # Incomplete for other distributions, will run normal	
-					prob[class_values] *= pdf_distr(x.loc[s],mu=mu0,sigma=sigma0)
-				else: 
-					prob[class_values] *= pdf_distr(x.loc[s],mu=mu0,sigma=sigma0)
+			if distr != 'normal': # Incomplete for other distributions, will run normal	
+				prob[class_values] += np.log(pdf_distr(x.loc[s],mu=mu0,sigma=sigma0))
+			else: 
+				prob[class_values] += np.log(pdf_distr(x.loc[s],mu=mu0,sigma=sigma0))
 	return prob
 
 ## 6. Naive Bayesian Model i.e. P(class = x| A,...,B) = P(A|class=x)*...*P(B|class=x)*P(class=x)
@@ -82,15 +82,16 @@ def predict(model,x):
 	return best_label
 
 
-def naive_bayes(model,test):
-    '''
-    Model is output for summarize by class. Test is a list or pd.Series of test points.
-    '''
-    predictions = list()
-    for row in test:
-        output = predict(model,row)
-        predictions.append(output)
-    return predictions
+def naive_bayes(train,test):
+	'''
+	Train is pd.DataFrame and Test is pd.DataFrame of test points
+	'''
+	model = summarize_by_class(train)
+	predictions = list()
+	for r in test.index:
+		output = predict(model,test.loc[r])
+		predictions.append(output)
+	return predictions
 
 ## Fit model, training_set is training set with col being class to predict
 #model = summarize_by_class(training_set,col='class')
