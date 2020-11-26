@@ -8,8 +8,17 @@ curation.py
 
 
 Naive Bayes Classification:
-bayes_class.py
+bayes_classifier.py
 
+Ordinary Least Squares Regression:
+least_squares_regression.py
+
+Gradient Descent Linear Regression:
+gradient_descent_regression.py
+
+
+k-fold Cross-Validation:
+cross_validation.py
 
 Future:
 
