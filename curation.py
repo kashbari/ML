@@ -2,9 +2,11 @@
 
 import os
 from csv import reader
+import numpy as np
 import pandas as pd
 
-# Load file
+
+# Load file without pandas
 def loadfile(filename):
 	type = os.path.splitext(filename)[1]
 	if type == 'csv':
@@ -19,7 +21,12 @@ def loadfile(filename):
 	elif type == 'txt':
 		dataset = eval(open(filename).read())
 		return dataset
-	
+
+# Pandas load
+# dataset = pd.read_csv("filename.csv",sep=",")
+# sep = "," for comma, "\t" for tab, ";" for semi-colon,
+
+
 # Convert data type
 
 def convert_data(data,axis='col',idx,data_type2):
