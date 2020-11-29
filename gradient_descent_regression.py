@@ -5,24 +5,61 @@ import numpy as np
 import pandas as pd
 
 
-def gradient_descent_regression(dx, dy, m_current=0, b_current=0, epochs=1000, learning_rate=0.0001,*args):
+def gradient_descent_regression(dx, dy, theta=None, epochs=1000, learning_rate=0.0001,*args):
 	'''
-	m_current,b_current = starting points for m and b, resp. epochs = number of iterations. learning_rate = 
+	theta = starting, random vector, epochs = number of iterations. learning_rate = rate of descent 
 	'''
+	if theta == None:
+		theta = np.random.randn(dx.shape[0],1)
 	N = float(len(dy))
-#	if m_current == 0 and dx.shape[1] != 1:
-#		m_current = np.array([0]*(dx.shape[1])).reshape(dx.shape[1],1)
-#		b_current = np.array([0]*(len(dy))).reshape(dy.shape)
 	for _ in range(epochs):
-		print(_)
-		print(m_current,b_current)
-		if m_current is 0:
-			y_current = 0*dy
-		else:
-			y_current = (dx @ m_current ) + b_current
-		cost = sum([data**2 for data in (dy-y_current).values]) / N
-		m_gradient = -(2/N) * sum((dx * (dy - y_current)).values)
-		b_gradient = -(2/N) * sum((dy - y_current).values)
-		m_current = m_current - (learning_rate * m_gradient)
-		b_current = b_current - (learning_rate * b_gradient)
-	return m_current, b_current, cost
+		predict = dx @ theta
+		theta = theta - (1/N)*learning_rate*(dx.T @ (predidx-dy))
+		predict = dx @ theta
+	cost = (1/2*N)*np.sum(np.square(predict-dy)) 
+	return theta, cost
+
+
+
+def stochastic_gradient_descent_regression(dx, dy, theta=None, epochs=1000, learning_rate=0.0001,*args):
+	'''
+	Stochastic version of gradient descent (incomplete)
+	'''
+	if theta == None:
+		theta = np.random.randn(dx.shape[0],1)
+	N = float(len(dy))
+	for _ in range(epochs):
+		cost = 0.0
+		for i in range(N):
+			rndm_idx = np.random.permutation(N)
+			dx_idx = dx.loc[rndm_idx]
+			dy_idx = dy.loc[rndm_idx]
+			predict = dx_idx @ theta
+			theta = theta - (1/N)*learning_rate*(dx_idx.T @ (predict-dy_idx))
+			if _ == (epochs-1):
+				cost += (1/2*N)*np.sum(np.square(predict-dy_idx))
+	return theta, cost
+
+
+
+def batch_gradient_descent_regression(dx, dy, theta=None, batch_size=20, epochs=1000, learning_rate=0.0001,*args):
+    '''
+    Batch gradient descent (incomplete)
+    '''
+    if theta == None:
+        theta = np.random.randn(dx.shape[0],1)
+    N = float(len(dy))
+    n_batches = int(N/batch_size)
+    for _ in range(epochs):
+        cost = 0.0
+        for i in range(0,N,batch_size):
+            rndm_idx = np.random.permutation(N)
+            dx_idx = dx.loc[i:i+batch_size]
+            dy_idx = dy.loc[i:i+batch_size]
+            predict = dx_idx @ theta
+            theta = theta - (1/N)*learning_rate*(dx_idx.T @ (predict-dy_idx))
+            if _ == (epochs-1):
+                cost += (1/2*N)*np.sum(np.square(predict-dy_idx))
+    return theta, cost
+
+	
