@@ -79,35 +79,39 @@ def clean_data_prelim(df,remove_duplicates=False,keep='last',change_class_type=F
 #			except ValueError:
 #				df = pd.to_numeric(df[dict_data_types.keys()],errors='coerce')
 		if verbose == True:
-			clean_data_prelim(df)
+			data_summary(df,verbose=True)
 		return df
 	else:
-		if verbose == True:
-			print('############# DataFrame: ##############')
-			print(df.head())
-			print('############# Data Types in DataFrame: ###############')
-			print(df.dtypes)
-			print('############# Number of Data points: ###############')
-			print(len(df))
-			print('############# Number of repeat elements: ###############')
-			print(len(df) - len(df.index.unique()))
-			class_O = list()
-			class_str = list()
-			class_unknown = list()
-			for idx in df.dtypes.index:
-				if df.dtypes[idx] == 'O':
-					class_O.append(idx)
-				elif df.dtypes[idx] == 'str':
-					class_str.append(idx)
-				elif df.dtypes[idx] != 'int':
-					class_unknown.append(idx)
-			if len(class_O) != 0:
-				print('###### Object Datatype: #######')
-				print(class_O)
-			if len(class_str) != 0:
-				print('###### String Datatype: #######')
-				print(class_str)
-			if len(class_unknown) != 0:
-				print('###### Other Datatype: ######')
-				print(class_unknown)
+		return data_summary(df,verbose=True)
+
+
+
+def data_summary(df,verbose=True)
+	print('############# DataFrame: ##############')
+	print(df.head())
+	print('############# Data Types in DataFrame: ###############')
+	print(df.dtypes)
+	print('############# Number of Data points: ###############')
+	print(len(df))
+	print('############# Number of repeat elements: ###############')
+	print(len(df) - len(df.index.unique()))
+	class_O = list()
+	class_str = list()
+	class_unknown = list()
+	for idx in df.dtypes.index:
+		if df.dtypes[idx] == 'O':
+			class_O.append(idx)
+		elif df.dtypes[idx] == 'str':
+			class_str.append(idx)
+		elif df.dtypes[idx] != 'int':
+			class_unknown.append(idx)
+	if len(class_O) != 0:
+		print('###### Object Datatype: #######')
+		print(class_O)
+	if len(class_str) != 0:
+		print('###### String Datatype: #######')
+		print(class_str)
+	if len(class_unknown) != 0:
+		print('###### Other Datatype: ######')
+		print(class_unknown)
 	return		
