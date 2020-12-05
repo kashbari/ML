@@ -2,7 +2,6 @@
 
 import os
 from csv import reader
-import numpy as np
 import pandas as pd
 
 ## Load file (Non-pandas) DEPRECATED
@@ -21,11 +20,6 @@ def loadfile(filename):
 		dataset = eval(open(filename).read())
 		return dataset
 
-## Pandas load
-## dataset = pd.read_csv("filename.csv",sep=",")
-## sep = "," for comma, "\t" for tab, ";" for semi-colon,
-
-
 ## Load data using pandas
 def loadfile_pd(filename,col_names=None,colspecs=None,idx_col=None,*args):
 	'''
@@ -43,7 +37,8 @@ def loadfile_pd(filename,col_names=None,colspecs=None,idx_col=None,*args):
 	else:
 		return pd.read_csv(filename,names=col_names)		
 	
-## Convert data types in cols (non-pandas) DEPRECATED/INCOMPLETE
+## Convert data types in cols (non-pandas) INCOMPLETE
+
 def convert_data(data,idx,data_type2,axis='col'):
 	if axis == col:
 		if data_type2 == 'float':
