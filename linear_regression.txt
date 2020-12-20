@@ -1,0 +1,33 @@
+Linear Regression Basics
+(TeX formatting)
+
+Assumption of linearity between target and covariates:
+\hat{y} = w.T*x + d for x,w \in \R^d
+or if x is design matrix for n examples, then
+\hat{y} = X*w + d for X \in \R^{n \times d} (d added via broadcasting)
+
+
+Loss function:
+l^(i)(w,b) = \frac{1}{2} (\hat{y}^(i) - y^(i))^2
+L(w,b) = \frac{1}{n} \sum_{i=1}^n l^(i)(w,b)
+
+Training Goal: Find w*,b* = argmin_{w,b} L(w,b)
+
+Analytic Sol: w* = (X.T X)^{-1} X^T y 
+Obtained by subsuming b into w by adding col of 1's. Then want to minimize ||y - Xw||^2, gives above sol via Least Squares, assumes unique sol)
+
+Minibatch Stochastic Gradient Decent:
+Gradient descent but choose batch B of fixed size each iteration
+
+w <- w - \frac{\eta}{|B|} \sum_{i \in B} x^(i) ( w.T x^(i) + b - y^(i) ) 
+(summand equal to \partial_w l^(i)(w,b) )
+b <- b - \frac{\eta}{|B|} \sum_{i \in B} (w.T x^(i) + b - y^(i) )
+(summand equal to \partial_b l^(i)(w,b) )
+
+\eta = Learning Rate (positive value)
+
+Batch size and Learning Rate are \textit{hyperparameters} (parameters tunable but not updated in training loop)
+
+
+
+
