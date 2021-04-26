@@ -24,7 +24,6 @@ Future:
 
 Supervised:
 
-  -Ordinary Least Squares Regression 
   -Logistic Regression 
   -Support Vector Machine (SVM)
   -Decision Tree
