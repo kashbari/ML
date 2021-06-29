@@ -3,6 +3,8 @@
 import numpy as np
 import tensorflow as tf
 
+
+## Example from D2L
 true_w = tf.constant([2,-3.4])
 true_b = 4.2
 features,labels = synthetic_data(true_w,true_b,1000)
@@ -15,9 +17,12 @@ def load_array(data_arrays, batch_size, is_train=True):  #@save
     dataset = dataset.batch(batch_size)
     return dataset
 
+
+# Batch size and Data iteration
 batch_size = 10
 data_iter = load_array((features, labels), batch_size)
 
+# Initialize NN with keras. Single layer is linear regression
 initializer = tf.initializers.RandomNormal(stddef=0.01)
 net = tf.keras.Sequential()
 net.add(tf.keras.layers.Dense(1))
@@ -37,3 +42,4 @@ for i in range(iter):
         optim.apply_gradients(zip(grads, net.trainable_variables))
     l = loss(net(features), labels)
     print(f'epoch {epoch + 1}, loss {l:f}')
+
