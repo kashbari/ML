@@ -28,7 +28,6 @@ Side information: To use the application in a special environment use ```lorem i
 ## Collaboration
 ***
 Give instructions on how to collaborate with your project.
-Template update
 > Maybe you want to write a quote in this part. 
 > Should it encompass several lines?
 > This is how you do it.
