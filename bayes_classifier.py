@@ -1,9 +1,9 @@
 #### Implement Naives Bayes Classification
 ## Test Data: iris.csv or breast-cancer-wisconsin.data
 
-import numpy as np
-import pandas as pd
-import scipy.stats as stat
+#import numpy as np
+#import pandas as pd
+#import scipy.stats as stat
 
 ## 1. Separate by Class
 
